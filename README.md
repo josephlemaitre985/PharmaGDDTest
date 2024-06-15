@@ -1,20 +1,68 @@
-<p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://media.sylius.com/sylius-logo-800-dark.png">
-          <source media="(prefers-color-scheme: light)" srcset="https://media.sylius.com/sylius-logo-800.png">
-          <img alt="Sylius Logo." src="https://media.sylius.com/sylius-logo-800.png">
-        </picture>
-    </a>
-</p>
+<h1 align="center">PharmaGDD Test</h1>
 
-<h1 align="center">Sylius Standard Edition</h1>
+A propos
+-----
 
-<p align="center">This is Sylius Standard Edition repository for starting new projects.</p>
+Ce projet a pour but de tester les compétences du candidat. Ce repository contient un projet Sylius fraichement installé.
+La difficulté des exercices proposés s'intensifie au fur et à mesure.
 
-## About
+Il n'est pas nécessaire de finir tous les exercices demandés, le candidat sera jugé sur la qualité de code et les choix architecturaux utilisés.
 
-Sylius is the first decoupled eCommerce framework based on [**Symfony**](http://symfony.com) and [**Doctrine**](http://doctrine-project.org). 
+Installation
+----
+
+Il est demandé au candidat de "forker" le projet sur GitHub avant de cloner.
+
+```shell
+$ git clone https://github.com/<GithubUsername>/PharmaGDDTest.git
+$ cd PharmaGDDTest
+$ composer install
+$ yarn install
+$ yarn build
+$ php bin/console sylius:install
+$ php bin/console server:start
+$ open http://localhost:8000/
+```
+
+Exercices
+---- 
+
+### 1. Gestion des ressources et des grilles
+
+#### 1. Surcharger la grille des clients dans l'espace d'administration. (https://127.0.0.1:8000/admin/customers/)
+    
+- Ajouter une colonne indiquant si le client est abonné à la newsletter de la même manière que la colonne "vérifié"
+- Ajouter un filtre qui permet d'afficher seulement les clients abonnés à la newsletter.
+
+
+#### 2. Création d'une nouvelle ressource
+
+- Créer une ressource "Marque" avec un nom, une description et date de création / modification.
+- Créer une grille permettant d'afficher toutes les marques.
+- Gérer l'ajout, la modification et la suppression (CRUD)
+- Lier cette ressource aux produits, un produit peut être lié à une marque.
+- Ajouter une action sur la grille permettant de voir tous les produits d'une marque.
+
+### 2. Gestion des states machine (workflow) 
+
+#### 1. Modification de la ressource "Marque"
+
+La marque sera maintenant considérée comme une ressource à état. Sa création ou sa modification entrainera un changement 
+d'état vers le statut brouillon. Une demande de modification peut être faite avant la publication.  
+
+- Ajouter un attribut "state" sur la marque.
+- Configurer une nouvelle state machine avec les états "draft", "published", "changes_required".
+- Les transitions sont :
+  - "draft -> published"
+  - "draft -> changes_required"
+  - "changes_required -> draft"
+  - "published -> draft"
+- Ajouter les actions nécessaires pour demander un changement (transition vers "changes_required") et pour valider ("published")
+- Ajouter un évènement sur l'ajout et la modification pour passer le statut en "draft".
+
+---
+
+Sylius is the first decoupled eCommerce platform based on [**Symfony**](http://symfony.com) and [**Doctrine**](http://doctrine-project.org). 
 The highest quality of code, strong testing culture, built-in Agile (BDD) workflow and exceptional flexibility make it the best solution for application tailored to your business requirements. 
 Enjoy being an eCommerce Developer again!
 
@@ -22,65 +70,7 @@ Powerful REST API allows for easy integrations and creating unique customer expe
 
 We're using full-stack Behavior-Driven-Development, with [phpspec](http://phpspec.net) and [Behat](http://behat.org)
 
-## Documentation
+Documentation
+-------------
 
 Documentation is available at [docs.sylius.com](http://docs.sylius.com).
-
-## Installation
-
-### Traditional
-```bash
-$ wget http://getcomposer.org/composer.phar
-$ php composer.phar create-project sylius/sylius-standard project
-$ cd project
-$ yarn install
-$ yarn build
-$ php bin/console sylius:install
-$ symfony serve
-$ open http://localhost:8000/
-```
-
-For more detailed instruction please visit [installation chapter in our docs](https://docs.sylius.com/en/latest/book/installation/installation.html).
-
-### Docker
-
-#### Development
-
-Make sure you have installed [Docker](https://docs.docker.com/get-docker/) on your local machine.
-Execute `make init` in your favorite terminal and wait some time until the services will be ready.
-Then enter `localhost` in your browser or execute `open localhost` in your terminal.
-
-
-## Troubleshooting
-
-If something goes wrong, errors & exceptions are logged at the application level:
-
-```bash
-$ tail -f var/log/prod.log
-$ tail -f var/log/dev.log
-```
-
-## Contributing
-
-Would like to help us and build the most developer-friendly eCommerce framework? Start from reading our [Contribution Guide](https://docs.sylius.com/en/latest/contributing/)!
-
-## Stay Updated
-
-If you want to keep up with the updates, [follow the official Sylius account on Twitter](http://twitter.com/Sylius) and [like us on Facebook](https://www.facebook.com/SyliusEcommerce/).
-
-## Bug Tracking
-
-If you want to report a bug or suggest an idea, please use [GitHub issues](https://github.com/Sylius/Sylius/issues).
-
-## Community Support
-
-Get Sylius support on [Slack](https://sylius.com/slack), [Forum](https://forum.sylius.com/) or [Stack Overflow](https://stackoverflow.com/questions/tagged/sylius).
-
-## MIT License
-
-Sylius is completely free and released under the [MIT License](https://github.com/Sylius/Sylius/blob/master/LICENSE).
-
-## Authors
-
-Sylius was originally created by [Paweł Jędrzejewski](http://pjedrzejewski.com).
-See the list of [contributors from our awesome community](https://github.com/Sylius/Sylius/contributors).
