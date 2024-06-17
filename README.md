@@ -11,7 +11,7 @@ Il n'est pas nécessaire de finir tous les exercices demandés, le candidat sera
 Installation
 ----
 
-Il est demandé au candidat de "forker" le projet sur GitHub avant de cloner.
+Il est demandé au candidat de "forker" le projet sur GitHub avant de cloner. Il faut aussi soit configurer votre serveur web, soit installer et utiliser [**Symfony CLI**](https://symfony.com/download)
 
 ```shell
 $ git clone https://github.com/<GithubUsername>/PharmaGDDTest.git
@@ -20,8 +20,9 @@ $ composer install
 $ yarn install
 $ yarn build
 $ php bin/console sylius:install
-$ php bin/console server:start
-$ open http://localhost:8000/
+# Si vous utilisez Symfony CLI
+$ symfony server:start
+$ open http://[symfony_host]:[symfony_port]/
 ```
 
 Exercices
