@@ -1,11 +1,9 @@
+# config/packages/_sylius.yaml
 imports:
     - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
     - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
-
     - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusPayPalPlugin/Resources/config/config.yaml" }
     - { resource: "../parameters.yaml" }
 
@@ -260,3 +258,23 @@ sylius_theme:
             scan_depth: 1
             directories:
                 - "%kernel.project_dir%/themes"
+
+sylius_grid:
+    grids:
+        sylius_admin_customer:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: App\Entity\Customer\Customer
+            fields:
+                subscribed_to_newsletter:
+                    type: twig
+                    label: sylius.ui.subscribed_to_newsletter
+                    options:
+                        template: '@SyliusAdmin/Customer/Grid/Field/subscribed_to_newsletter.html.twig'
+            filters:
+                subscribed_to_newsletter:
+                    type: boolean
+                    label: sylius.ui.subscribed_to_newsletter
+                    options:
+                        field: subscribedToNewsletter

@@ -1,0 +1,5 @@
+sylius:
+    ui:
+        yes: 'Yes'
+        no: 'No'
+        subscribed_to_newsletter: 'Subscribed to the newsletter'
