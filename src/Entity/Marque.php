@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use DateTime;
 
 /**
  * @ORM\Entity
@@ -38,10 +37,15 @@ class Marque
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $state = 'draft'; // Initial state is 'draft'
+
     public function __construct()
     {
-        $this->createdAt = new DateTime();
-        $this->updatedAt = new DateTime();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -57,7 +61,6 @@ class Marque
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -69,7 +72,6 @@ class Marque
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -81,7 +83,6 @@ class Marque
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -93,7 +94,28 @@ class Marque
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
 
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    public function getMarking(): string
+    {
+        return $this->state;
+    }
+
+    public function setMarking(string $state): self
+    {
+        $this->state = $state;
         return $this;
     }
 }

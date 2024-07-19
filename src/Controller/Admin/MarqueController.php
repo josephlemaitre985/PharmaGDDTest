@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Marque;
 use App\Form\MarqueType;
+use App\Service\MarqueWorkflowService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MarqueController extends AbstractController
 {
+    private $workflowService;
+
+    public function __construct(MarqueWorkflowService $workflowService)
+    {
+        $this->workflowService = $workflowService;
+    }
+
     /**
      * @Route("/", name="admin_marque_index", methods={"GET"})
      */
@@ -38,6 +46,12 @@ class MarqueController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $marque->setCreatedAt(new \DateTime());
+            $marque->setUpdatedAt(new \DateTime());
+
+            // Initialiser l'état à "draft"
+            $this->workflowService->revertToDraft($marque);
+
             $em->persist($marque);
             $em->flush();
 
@@ -61,6 +75,12 @@ class MarqueController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $marque->setUpdatedAt(new \DateTime());
+
+            // Mettre à jour l'état à "draft" si ce n'est pas déjà "published"
+            if ($this->workflowService->getCurrentPlace($marque) !== 'published') {
+                $this->workflowService->revertToDraft($marque);
+            }
+
             $em->flush();
 
             return $this->redirectToRoute('admin_marque_index');
@@ -73,7 +93,46 @@ class MarqueController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_marque_delete", methods={"POST"})
+     * @Route("/{id}/publish", name="admin_marque_publish", methods={"POST"})
+     */
+    public function publish(Request $request, Marque $marque, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('publish'.$marque->getId(), $request->request->get('_token'))) {
+            $this->workflowService->publish($marque);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('admin_marque_index');
+    }
+
+    /**
+     * @Route("/{id}/require-changes", name="admin_marque_require_changes", methods={"POST"})
+     */
+    public function requireChanges(Request $request, Marque $marque, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('require_changes'.$marque->getId(), $request->request->get('_token'))) {
+            $this->workflowService->requireChanges($marque);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('admin_marque_index');
+    }
+
+    /**
+     * @Route("/{id}/revert-to-draft", name="admin_marque_revert_to_draft", methods={"POST"})
+     */
+    public function revertToDraft(Request $request, Marque $marque, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('revert_to_draft'.$marque->getId(), $request->request->get('_token'))) {
+            $this->workflowService->revertToDraft($marque);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('admin_marque_index');
+    }
+
+    /**
+     * @Route("/{id}/delete", name="admin_marque_delete", methods={"POST"})
      */
     public function delete(Request $request, Marque $marque, EntityManagerInterface $em): Response
     {

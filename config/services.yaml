@@ -1,14 +1,14 @@
 services:
-    # Default configuration for services in *this* file
+    # Configuration par défaut pour les services dans *ce* fichier
     _defaults:
-        # Automatically injects dependencies in your services
+        # Injection automatique des dépendances dans vos services
         autowire: true
 
-        # Automatically registers your services as commands, event subscribers, etc.
+        # Enregistre automatiquement vos services comme commandes, abonnés aux événements, etc.
         autoconfigure: true
 
-        # Allows optimizing the container by removing unused services; this also means
-        # fetching services directly from the container via $container->get() won't work
+        # Permet d'optimiser le conteneur en supprimant les services inutilisés ; cela signifie également
+        # que la récupération des services directement depuis le conteneur via $container->get() ne fonctionnera pas
         public: false
 
     _instanceof:
@@ -17,14 +17,18 @@ services:
         Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType:
             autowire: false
 
-    # Makes classes in src/ available to be used as services;
-    # this creates a service per class whose id is the fully-qualified class name
+    # Rend les classes dans src/ disponibles pour être utilisées comme services ;
+    # cela crée un service par classe dont l'identifiant est le nom complet de la classe
     App\:
         resource: '../src/*'
         exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
 
-    # Controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
+    # Les contrôleurs sont importés séparément pour s'assurer que les services peuvent être injectés
+    # comme arguments d'action même si vous n'étendez pas une classe de contrôleur de base
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    App\Service\MarqueWorkflowService:
+        arguments:
+            $marqueStateMachine: '@state_machine.marque_state'

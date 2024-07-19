@@ -10,6 +10,7 @@
                 <th>Description</th>
                 <th>Date de création</th>
                 <th>Date de modification</th>
+                <th>État</th> <!-- Nouvelle colonne pour l'état -->
                 <th>Actions</th>
             </tr>
         </thead>
@@ -20,9 +21,10 @@
                     <td>{{ marque.description }}</td>
                     <td>{{ marque.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>{{ marque.updatedAt|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ marque.state }}</td> <!-- Affichage de l'état -->
                     <td>
                         <a href="{{ path('admin_marque_edit', {'id': marque.id}) }}" class="btn btn-primary">Modifier</a>
-                        <form method="post" action="{{ path('admin_marque_delete', {'id': marque.id}) }}" style="display:inline-block">
+                        <form method="post" action="{{ path('admin_marque_delete', {'id': marque.id}) }}" style="display:inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ marque.id) }}">
                             <button class="btn btn-danger">Supprimer</button>
                         </form>

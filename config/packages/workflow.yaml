@@ -1,2 +1,29 @@
+# config/packages/workflow.yaml
+
 framework:
-    workflows: null
+    workflows:
+        marque_state:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'marking'
+            supports:
+                - App\Entity\Marque
+            initial_marking: draft
+            places:
+                - draft
+                - published
+                - changes_required
+            transitions:
+                publish:
+                    from: draft
+                    to: published
+                request_changes:
+                    from: draft
+                    to: changes_required
+                revert_to_draft:
+                    from: changes_required
+                    to: draft
+                unpublish:
+                    from: published
+                    to: draft

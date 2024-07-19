@@ -1,2 +1,27 @@
-sylius_paypal_webhook:
-    resource: "@SyliusPayPalPlugin/Resources/config/webhook_routing.yaml"
+# config/routes.yaml
+
+# Définition des routes pour les actions de la ressource Marque
+marque_request_changes:
+    path: /marque/{id}/request-changes
+    controller: App\Controller\Admin\MarqueController::requestChanges
+    methods: POST
+
+marque_publish:
+    path: /marque/{id}/publish
+    controller: App\Controller\Admin\MarqueController::publish
+    methods: POST
+
+marque_require_changes:
+    path: /marque/{id}/require-changes
+    controller: App\Controller\Admin\MarqueController::requireChanges
+    methods: POST
+
+marque_revert_to_draft:
+    path: /marque/{id}/revert-to-draft
+    controller: App\Controller\Admin\MarqueController::revertToDraft
+    methods: POST
+
+admin_marque_delete:
+    path: /admin/marque/{id}/delete
+    controller: App\Controller\Admin\MarqueController::delete
+    methods: POST
