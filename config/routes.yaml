@@ -1,4 +1,3 @@
-# config/routes.yaml
 
 # Définition des routes pour les actions de la ressource Marque
 marque_request_changes:

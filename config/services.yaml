@@ -1,14 +1,10 @@
 services:
-    # Configuration par défaut pour les services dans *ce* fichier
     _defaults:
-        # Injection automatique des dépendances dans vos services
         autowire: true
 
-        # Enregistre automatiquement vos services comme commandes, abonnés aux événements, etc.
         autoconfigure: true
 
-        # Permet d'optimiser le conteneur en supprimant les services inutilisés ; cela signifie également
-        # que la récupération des services directement depuis le conteneur via $container->get() ne fonctionnera pas
+       
         public: false
 
     _instanceof:
@@ -17,14 +13,11 @@ services:
         Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType:
             autowire: false
 
-    # Rend les classes dans src/ disponibles pour être utilisées comme services ;
-    # cela crée un service par classe dont l'identifiant est le nom complet de la classe
+    
     App\:
         resource: '../src/*'
         exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
 
-    # Les contrôleurs sont importés séparément pour s'assurer que les services peuvent être injectés
-    # comme arguments d'action même si vous n'étendez pas une classe de contrôleur de base
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']

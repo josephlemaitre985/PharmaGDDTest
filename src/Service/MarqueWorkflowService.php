@@ -16,7 +16,11 @@ class MarqueWorkflowService
 
     public function getCurrentPlace(Marque $marque): string
     {
-        return $this->workflow->getMarking($marque)->getPlaces()[0];
+        $marking = $this->workflow->getMarking($marque);
+        $places = $marking->getPlaces();
+
+        // Vérifier si la clé 0 existe avant d'y accéder
+        return $places[0] ?? 'undefined';
     }
 
     public function revertToDraft(Marque $marque): void
