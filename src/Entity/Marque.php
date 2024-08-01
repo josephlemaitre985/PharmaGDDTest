@@ -28,12 +28,12 @@ class Marque
     private $description;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", name="created_at")
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", name="updated_at")
      */
     private $updatedAt;
 
@@ -119,3 +119,4 @@ class Marque
         return $this;
     }
 }
+

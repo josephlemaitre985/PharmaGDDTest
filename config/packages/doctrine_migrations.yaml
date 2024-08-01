@@ -1,5 +1,3 @@
-# config/packages/doctrine_migrations.yaml
 doctrine_migrations:
     migrations_paths:
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
-        'Sylius\Bundle\CoreBundle\Migrations': '%kernel.project_dir%/src/Sylius/Bundle/CoreBundle/Resources/migrations'
